@@ -29,39 +29,97 @@ window.addEventListener('DOMContentLoaded', function() {
     let mainArr = [
         //палка
         [
-            [0, 1], [0, 2], [0, 3]
+            [0, 1], [0, 2], [0, 3],
+            // поворот на 90 градусов
+            [ [-1, 1], [0, 0], [1, -1], [2, -2] ],
+            // поворот на 180 градусов
+            [ [1, -1], [0, 0], [-1, 1], [-2, 2] ],
+            // поворот на 270 градусов
+            [ [-1, 1], [0, 0], [1, -1], [2, -2] ],
+            // поворот на 360 градусов
+            [ [1, -1], [0, 0], [-1, 1], [-2, 2] ]
         ],
         //квадрат
         [
-            [1, 0], [0, 1], [1, 1]
+            [1, 0], [0, 1], [1, 1],
+            // поворот на 90 градусов
+            [ [0, 0], [0, 0], [0, 0], [0, 0] ],
+            // поворот на 180 градусов
+            [ [0, 0], [0, 0], [0, 0], [0, 0] ],
+            // поворот на 270 градусов
+            [ [0, 0], [0, 0], [0, 0], [0, 0] ],
+            // поворот на 360 градусов
+            [ [0, 0], [0, 0], [0, 0], [0, 0] ]
         ],
         // L
         [
-            [1, 0], [0, 1], [0, 2]
+            [1, 0], [0, 1], [0, 2],
+            // поворот на 90 градусов
+            [ [0, 0], [-1, 1], [1, 0], [2, -1] ],
+            // поворот на 180 градусов
+            [ [1, -1], [1, -1], [-1, 0], [-1, 0] ],
+            // поворот на 270 градусов
+            [ [-1, 0], [0, -1], [2, -2], [1, -1] ],
+            // поворот на 360 градусов
+            [ [0, -1], [0, -1], [-2, 0], [-2, 0] ]
         ],
         // L влево )
         [
-            [1, 0], [1, 1], [1, 2]
+            [1, 0], [1, 1], [1, 2],
+            // поворот на 90 градусов
+            [ [0, 0], [0, 0], [1, -1], [-1, -1] ],
+            // поворот на 180 градусов
+            [ [0, -1], [-1, 0], [-2, 1], [1, 0] ],
+            // поворот на 270 градусов
+            [ [2, 0], [0, 0], [1, -1], [1, -1] ],
+            // поворот на 360 градусов
+            [ [-2, 0], [1, -1], [0, 0], [-1, 1] ]
         ],
         // s
         [
-            [1, 0], [1, 1], [2, 1]
+            [1, 0], [1, 1], [2, 1],
+            // поворот на 90 градусов
+            [ [2, -1], [0, 0], [1, -1], [-1, 0] ],
+            // поворот на 180 градусов
+            [ [-2, 0], [0, -1], [-1, 0], [1, -1] ],
+            // поворот на 270 градусов
+            [ [2, -1], [0, 0], [1, -1], [-1, 0] ],
+            // поворот на 360 градусов
+            [ [-2, 0], [0, -1], [-1, 0], [1, -1] ]
         ],
         // s влево
         [
-            [1, 0], [-1, 1], [0, 1]
+            [1, 0], [-1, 1], [0, 1],
+            // поворот на 90 градусов
+            [ [0, -1], [-1, 0], [2, -1], [1, 0] ],
+            // поворот на 180 градусов
+            [ [0, 0], [1, -1], [-2, 0], [-1, -1] ],
+            // поворот на 270 градусов
+            [ [0, -1], [-1, 0], [2, -1], [1, 0] ],
+            // поворот на 360 градусов
+            [ [0, 0], [1, -1], [-2, 0], [-1, -1] ]
         ],
         // танк
         [
-            [1, 0], [2, 0], [1, 1]
+            [1, 0], [2, 0], [1, 1],
+            // поворот на 90 градусов
+            [ [1, -1], [0, 0], [0, 0], [0, 0] ],
+            // поворот на 180 градусов
+            [ [0, 0], [-1, 0], [-1, 0], [1, -1] ],
+            // поворот на 270 градусов
+            [ [1, -1], [1, -1], [1, -1], [0, 0] ],
+            // поворот на 360 градусов
+            [ [-2, 0], [0, -1], [0, -1], [-1, -1] ]
         ]
     ]
     let currentFigure = 0,
-        figureBody = 0;
+        figureBody = 0,
+        rotate = 1;
     function create(){
         function getRandom(){
             return Math.round(Math.random() * (mainArr.length - 1));
         }
+        rotate = 1;
         currentFigure = getRandom();
         figureBody = [
             document.querySelector(`[posX = "${x}"][posY = "${y}"]`),
@@ -155,6 +213,36 @@ window.addEventListener('DOMContentLoaded', function() {
             getNewState(1);
         } else if (e.keyCode == 40){
             move();
+        } else if (e.keyCode == 38){
+            flagLR = true;
+            console.log(e.keyCode);
+            let figureNew = [
+                document.querySelector(`[posX = "${+coords[0][0] + mainArr[currentFigure][rotate + 2][0][0]}"][posY = "${+coords[0][1] + mainArr[currentFigure][rotate + 2][0][1]}"]`),
+                document.querySelector(`[posX = "${+coords[1][0] + mainArr[currentFigure][rotate + 2][1][0]}"][posY = "${+coords[1][1] + mainArr[currentFigure][rotate + 2][1][1]}"]`),
+                document.querySelector(`[posX = "${+coords[2][0] + mainArr[currentFigure][rotate + 2][2][0]}"][posY = "${+coords[2][1] + mainArr[currentFigure][rotate + 2][2][1]}"]`),
+                document.querySelector(`[posX = "${+coords[3][0] + mainArr[currentFigure][rotate + 2][3][0]}"][posY = "${+coords[3][1] + mainArr[currentFigure][rotate + 2][3][1]}"]`),
+            ];
+            console.log(figureNew);
+            console.log(`[posX = "${+coords[0][0] + mainArr[currentFigure][rotate + 2][0][0]}"][posY = "${+coords[0][1] + mainArr[currentFigure][rotate + 2][0][1]}"]`);
+            console.log(`[posX = "${+coords[1][0] + mainArr[currentFigure][rotate + 2][1][0]}"][posY = "${+coords[1][1] + mainArr[currentFigure][rotate + 2][1][1]}"]`);
+            console.log(`[posX = "${+coords[2][0] + mainArr[currentFigure][rotate + 2][2][0]}"][posY = "${+coords[2][1] + mainArr[currentFigure][rotate + 2][2][1]}"]`);
+            console.log(`[posX = "${+coords[3][0] + mainArr[currentFigure][rotate + 2][3][0]}"][posY = "${+coords[3][1] + mainArr[currentFigure][rotate + 2][3][1]}"]`);
+
+            for (let i = 0; i < figureNew.length; i++){
+                if (!figureNew[i] || figureNew[i].classList.contains('set')){
+                    flagLR = false;
+                }
+            }
+            if (flagLR) {
+                for (let i = 0; i < figureBody.length; i++){
+                    figureBody[i].classList.remove('figure');                
+                }
+                figureBody = figureNew;
+                for (let i = 0; i < figureBody.length; i++){
+                    figureBody[i].classList.add('figure');                
+                }
+                if (rotate < 4) {rotate++} else {rotate = 1};
+            }
         }
     })
 
