@@ -2,7 +2,8 @@
 window.addEventListener('DOMContentLoaded', function() {
     let overlay = document.querySelector('.overlay'),
         modal = document.querySelector('.modal'),
-        speed = 700;
+        speed = 700,
+        numStr = 20;
 
         modal.addEventListener('click', function(e){
             if (e.target.classList.contains('easy')){
@@ -25,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function() {
         let excel;
         let i;
     
-        for (i = 1; i < 181; i++){
+        for (i = 1; i <= (numStr * 10); i++){
             excel = document.createElement('div');
             excel.classList.add('excel');
             tetris.appendChild(excel);
@@ -36,7 +37,7 @@ window.addEventListener('DOMContentLoaded', function() {
         //excel = getElementsByClassName('excel');
         i = 0;
         let x, y;
-        for (y = 18; y > 0; y--){
+        for (y = numStr; y > 0; y--){
             for (x = 1; x < 11; x++){
                 excel[i].setAttribute('posX', x);
                 excel[i].setAttribute('posY', y);
@@ -44,7 +45,7 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
         // коордиаты начала фируры
-        x = 5; y = 15;
+        x = 5; y = numStr - 3;
         // шаблон фигур
         let mainArr = [
             //палка
@@ -188,14 +189,14 @@ window.addEventListener('DOMContentLoaded', function() {
                     figureBody[i].classList.remove('figure');
                     figureBody[i].classList.add('set');
                 }
-                for (let i = 1; i < 15; i++) {
+                for (let i = 1; i < (numStr - 4); i++) {
                     let count = 0;
                     for (let k = 1; k < 11; k++){
                         if (document.querySelector(`[posX = "${k}"][posY = "${i}"]`).classList.contains('set')){
                             count++;
                             if (count == 10) {
                                 score += 10;
-                                input.value = `Ваши очки: ${score}`;
+                                result.textContent = `ВАШИ ОЧКИ: ${score}`;
                                 for (let m = 1; m < 11; m++){
                                     document.querySelector(`[posX = "${m}"][posY = "${i}"]`).classList.remove('set')
                                 }
@@ -217,7 +218,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 for (let i = 1; i < 11; i++) {
-                    if (document.querySelector(`[posX = "${i}"][posY = "15"]`).classList.contains('set')){
+                    if (document.querySelector(`[posX = "${i}"][posY = "${numStr - 3}"]`).classList.contains('set')){
                         clearInterval(interval);
                         alert(`Игра окончена!\nВаши очки: ${score}`);
                         break;
@@ -228,8 +229,8 @@ window.addEventListener('DOMContentLoaded', function() {
         }
         create();
         let score = 0;
-        let input = document.querySelector('input');
-            input.value = `Ваши очки: ${score}`;
+        let result = document.querySelector('.result');
+            result.textContent = `ВАШИ ОЧКИ: ${score}`;
     
         let interval = setInterval(() => {
             move();
